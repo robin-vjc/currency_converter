@@ -2,7 +2,7 @@
 
 Simply clone the repo
 ```
-git clone ...
+git clone git@github.com:robin-vjc/currency_converter.git
 ```
 
 Running tests
