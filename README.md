@@ -7,7 +7,7 @@ git clone ...
 
 Running tests
 ```
-cd currency_concervert
+cd currency_converter
 pip install -r requirements.txt
 pytest
 ```
@@ -27,6 +27,6 @@ minus thirty nine million, two hundred and eighty two thousand, three hundred an
 
 # TODOs
 
-* create setup.py to make package pip-installable (pip install -e .)
+* create setup.py to make package pip-installable ("pip install -e .")
 * handle other currencies / languages
 * handle quantities above billions (simple: just update MAGNITUDES in constants.py)

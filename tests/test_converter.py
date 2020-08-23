@@ -1,3 +1,9 @@
+import os
+import sys
+
+THIS_PATH = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, THIS_PATH+"./../")
+
 from converter.converter import _int_to_words, currency_amount_to_words
 
 
