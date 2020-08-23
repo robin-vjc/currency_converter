@@ -1,0 +1,9 @@
+# General ignores
+*.pyc
+
+
+
+# folders
+.idea
+tests/.pytest_cache
+ve
