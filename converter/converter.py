@@ -68,6 +68,11 @@ def _int_to_words(number):
 
 
 def currency_amount_to_words(currency_amount):
+    """
+    Converts a currency amount in words.
+    :param currency_amount: float representing the currency amount, e.g., 345.76
+    :return: string representing the amount in words, e.g., 'three hundred and forty five DOLLARS AND seventy six CENTS'
+    """
     number_of_dollars = int(currency_amount)
     number_of_cents = int((currency_amount * 100 - int(number_of_dollars) * 100))
 
