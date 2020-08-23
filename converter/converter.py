@@ -1,36 +1,6 @@
-UNITS = {
-    0: '',
-    1: 'one',
-    2: 'two',
-    3: 'three',
-    4: 'four',
-    5: 'five',
-    6: 'six',
-    7: 'seven',
-    8: 'eight',
-    9: 'nine',
-    10: 'ten',
-    11: 'eleven',
-    12: 'twelve',
-    13: 'thirteen',
-    14: 'fourteen',
-    15: 'fifteen',
-    16: 'sixteen',
-    17: 'seventeen',
-    18: 'eighteen',
-    19: 'nineteen',
-}
-
-TENS = {
-    2: 'twenty',
-    3: 'thirty',
-    4: 'forty',
-    5: 'fifty',
-    6: 'sixty',
-    7: 'seventy',
-    8: 'eighty',
-    9: 'ninety',
-}
+from converter.constants import MAGNITUDES
+from converter.constants import TENS
+from converter.constants import UNITS
 
 
 def _less_than_hundred_to_words(number):
@@ -52,38 +22,38 @@ def _less_than_thousand_to_words(number):
         number_hundreds = number // 100
         remainder = number % 100
         remainder_in_words = _less_than_hundred_to_words(remainder)
-        return f'{UNITS[number_hundreds]} hundred {remainder_in_words}'
+        if remainder_in_words:
+            return f'{UNITS[number_hundreds]} hundred and {remainder_in_words}'
+        else:
+            return f'{UNITS[number_hundreds]} hundred'
 
 
 def int_to_words(number):
-    # if number == 0:
-    #     return 'zero'
-
+    """
+    Converts integer into words;
+    """
     if number < 1000:
         return _less_than_thousand_to_words(number).strip()
 
-    elif number < 1_000_000:
-        number_thousands = number // 1000
-        number_thousands_in_words = int_to_words(number_thousands)
+    # find the magnitude of the number;
+    # 1_000 -> magnitude = 1
+    # 1_000_000 -> magnitude = 2
+    # etc.
+    number_magnitude = 0
+    for allowed_magnitude in MAGNITUDES:
+        if number // 1000 ** allowed_magnitude:
+            number_magnitude += 1
 
-        remainder = number % 1000
+    # if we have number = 1_000_000_000, magnitude is in [3, 2, 1]
+    for magnitude in reversed(range(1, number_magnitude+1)):
+        number_xillions = number // 1000**magnitude
+        number_xillions_in_words = int_to_words(number_xillions)
+
+        remainder = number % 1000**magnitude
         remainder_in_words = int_to_words(remainder)
-        return f'{number_thousands_in_words} thousand {remainder_in_words}'.strip()
 
-    elif number < 1_000_000_000:
-        number_millions = number // 1_000_000
-        number_millions_in_words = int_to_words(number_millions)
-
-        remainder = number % 1_000_000
-        remainder_in_words = int_to_words(remainder)
-        return f'{number_millions_in_words} million {remainder_in_words}'
-
-
-
-
-
-
-def convert_currency(amount):
-
-    return 'three dollars'
+        if remainder_in_words:
+            return f'{number_xillions_in_words} {MAGNITUDES[magnitude]}, {remainder_in_words}'.strip()
+        else:
+            return f'{number_xillions_in_words} {MAGNITUDES[magnitude]}'.strip()
 
